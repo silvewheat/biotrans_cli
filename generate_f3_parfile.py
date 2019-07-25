@@ -42,11 +42,16 @@ def chunks(l, n):
 
 def generate_popfile(popids, outprefix, nquadrapules):
     combs = []
+    pools = set()
     for pop1 in popids['pop1']:
         for pop2 in popids['pop2']:
             for pop3 in popids['pop3']:
                 if len(set([pop1, pop2, pop3])) == 3:
-                    combs.append(f'{pop1}\t{pop2}\t{pop3}')
+                    comb = f'{pop1}\t{pop2}\t{pop3}'
+                    if comb not in pools:
+                        combs.append(f'{pop1}\t{pop2}\t{pop3}')
+                        pools.add(comb)
+                        pools.add(f'{pop2}\t{pop1}\t{pop3}')
                 else:
                     print(f'ID repeated in ({pop1}, {pop2}, {pop3})')
     for nfile, comb in enumerate(chunks(combs, nquadrapules), 1):

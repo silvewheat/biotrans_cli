@@ -2,7 +2,11 @@
 """
 Created on Thu Jan 18 21:01:14 2018
 
-@author: Caiyd
+Last edit on Tue May 18 21:48:08 2021
+
+@author: Yudongcai
+
+@Email: yudong_cai@163.com
 """
 
 import os
@@ -41,11 +45,11 @@ def base2file(varfile, sample, region, regions_file, outfile):
         with open(outfile, 'a') as f:
             f.write(f'>{sample}\n')
     if regions_file:
-        os.system(f"bcftools query -f '[%IUPACGT]' -s {sample} -R {regions_file} {varfile} | sed -e 's/\.\/\./N/g' -e 's/\./N/g' | fold -w80 >> {outfile}")
+        os.system(f"bcftools query -f '[%IUPACGT]' -s {sample} -R {regions_file} {varfile} | sed -e 's/\.\/\./N/g' -e 's/\*\/\*/N/' | sed -e 's/\.\|\./N/g' -e 's/\*\|\*/N/' | sed -e 's/\./N/g'  -e 's/\*/N/g' | sed -e 's/\///g' -e 's/\|//g' | fold -w80 >> {outfile}")
     elif region:
-        os.system(f"bcftools query -f '[%IUPACGT]' -s {sample} -r {region} {varfile} | sed -e 's/\.\/\./N/g' -e 's/\./N/g' | fold -w80 >> {outfile}")
+        os.system(f"bcftools query -f '[%IUPACGT]' -s {sample} -r {region} {varfile} | sed -e 's/\.\/\./N/g' -e 's/\*\/\*/N/' | sed -e 's/\.\|\./N/g' -e 's/\*\|\*/N/' | sed -e 's/\./N/g'  -e 's/\*/N/g' | sed -e 's/\///g' -e 's/\|//g' | fold -w80 >> {outfile}")
     else:
-        os.system(f"bcftools query -f '[%IUPACGT]' -s {sample} {varfile} | sed -e 's/\.\/\./N/g' -e 's/\./N/g' | fold -w80 >> {outfile}")
+        os.system(f"bcftools query -f '[%IUPACGT]' -s {sample} {varfile} | sed -e 's/\.\/\./N/g' -e 's/\*\/\*/N/' | sed -e 's/\.\|\./N/g' -e 's/\*\|\*/N/' | sed -e 's/\./N/g'  -e 's/\*/N/g' | sed -e 's/\///g' -e 's/\|//g' | fold -w80 >> {outfile}")
 
 
 

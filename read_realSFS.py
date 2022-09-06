@@ -35,13 +35,16 @@ def main(infile, sample1, sample2, outfile, noheader):
 
     # the derived stats
     df['R0'] = df['IBS0'] / df['HETHET']
-    df['R1'] = df['HETHET'] / (df['IBS0'] +  df['IBS1'])
+    df['R1'] = df['HETHET'] / (df['IBS0'] + df['IBS1'])
     # KING-robust kinship
     df['Kin'] = (df['HETHET'] - 2*(df['IBS0'])) / (df['IBS1'] + 2*df['HETHET'])
-    df['Fst'] = (2*df['IBS0'] - df['HETHET']) / (2*df['IBS0'] + df['IBS1'] + df['HETHET'])
+    df['Fst'] = (2*df['IBS0'] - df['HETHET']) / \
+        (2*df['IBS0'] + df['IBS1'] + df['HETHET'])
     df['sample1'] = sample1
     df['sample2'] = sample2
-    df[['sample1', 'sample2', 'nSites', 'Kin', 'R0', 'R1']].to_csv(outfile, sep='\t', index=False, header=bool(1-noheader))
+    df[['sample1', 'sample2', 'nSites', 'Kin', 'R0', 'R1']].to_csv(
+        outfile, sep='\t', index=False, header=bool(1-noheader))
+
 
 if __name__ == '__main__':
     main()
